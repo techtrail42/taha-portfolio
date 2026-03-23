@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="page-title">Portfolio</title>
+<meta name="description" id="page-desc" content="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+/*  ╔══════════════════════════════════════════════════════════════╗
+    ║  e-portfolio-template                                        ║
+    ║  Warm editorial aesthetic. Config-driven.                    ║
+    ║  Edit the CONFIG object in <script> to make it yours.        ║
+    ╚══════════════════════════════════════════════════════════════╝ */
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#faf8f4;
+  --bg-alt:#f2efe8;
+  --bg-card:#fff;
+  --border:#e4dfd6;
+  --border-hover:#c9c1b3;
+  --text:#3d3a34;
+  --text-dim:#8a847a;
+  --text-bright:#1a1815;
+  --accent:#c45d3e;
+  --accent-light:#c45d3e15;
+  --accent-hover:#a8492e;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans','Segoe UI',sans-serif;
+  --radius:14px;
+  --shadow:0 2px 20px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 40px rgba(0,0,0,.08);
+}
+
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+
+/* Grain overlay */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:72px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1.5rem,4vw,3rem);
+  background:rgba(250,248,244,.85);backdrop-filter:blur(16px);
+  border-bottom:1px solid transparent;transition:all .3s;
+}
+nav.scrolled{border-bottom-color:var(--border)}
+.nav-name{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--text-bright);text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.85rem;font-weight:500;color:var(--text-dim);text-decoration:none;transition:color .2s;letter-spacing:.2px}
+.nav-links a:hover{color:var(--accent)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;color:var(--text);font-size:1.3rem}
+
+/* ─── LAYOUT ─── */
+section{position:relative;padding:7rem clamp(1.5rem,4vw,3rem)}
+.container{max-width:1080px;margin:0 auto}
+
+/* ─── HERO ─── */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:72px}
+.hero-grid{display:grid;grid-template-columns:1fr 380px;gap:4rem;align-items:center}
+.hero-intro{font-size:.85rem;font-weight:600;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:1.5rem}
+.hero-name{
+  font-family:var(--serif);font-size:clamp(2.8rem,5.5vw,4.5rem);
+  font-weight:700;color:var(--text-bright);line-height:1.08;
+  margin-bottom:1.5rem;letter-spacing:-1px;
+}
+.hero-name em{font-style:italic;color:var(--accent);font-weight:500}
+.hero-bio{font-size:1.05rem;color:var(--text-dim);max-width:500px;margin-bottom:2.5rem;line-height:1.85}
+.hero-actions{display:flex;gap:.8rem;flex-wrap:wrap}
+
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1.5rem;
+  border-radius:100px;font-size:.85rem;font-weight:600;text-decoration:none;
+  transition:all .25s;border:none;cursor:pointer;letter-spacing:.2px;
+}
+.btn-fill{background:var(--accent);color:#fff}
+.btn-fill:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 20px rgba(196,93,62,.25)}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+
+.hero-photo-wrap{position:relative}
+.hero-photo-wrap img{
+  width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center top;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+}
+.hero-photo-wrap::after{
+  content:'';position:absolute;inset:12px -12px -12px 12px;
+  border:2px solid var(--accent);border-radius:var(--radius);z-index:-1;
+  opacity:.3;
+}
+.hero-monogram{
+  width:100%;aspect-ratio:4/5;border-radius:var(--radius);
+  background:var(--bg-alt);border:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;box-shadow:var(--shadow);
+}
+.hero-monogram::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 30% 20%,var(--accent-light) 0%,transparent 50%),
+    radial-gradient(circle at 70% 80%,rgba(196,93,62,.06) 0%,transparent 50%);
+}
+.hero-monogram-initials{
+  font-family:var(--serif);font-size:5rem;font-weight:700;
+  color:var(--accent);line-height:1;position:relative;
+  letter-spacing:-2px;opacity:.9;
+}
+.hero-monogram-name{
+  font-size:.85rem;font-weight:500;color:var(--text-dim);
+  margin-top:.75rem;position:relative;letter-spacing:3px;text-transform:uppercase;
+}
+.hero-monogram-line{
+  width:40px;height:2px;background:var(--accent);margin-top:1rem;
+  position:relative;opacity:.5;border-radius:1px;
+}
+
+/* ─── SECTION HEADERS ─── */
+.sec-eyebrow{font-size:.78rem;font-weight:600;color:var(--accent);letter-spacing:2px;text-transform:uppercase;margin-bottom:.5rem}
+.sec-title{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:700;color:var(--text-bright);margin-bottom:.5rem;letter-spacing:-.5px}
+.sec-desc{color:var(--text-dim);max-width:540px;margin-bottom:3rem}
+
+/* ─── ABOUT ─── */
+.about-cols{display:grid;grid-template-columns:1fr 1fr;gap:3rem}
+.about-text p{margin-bottom:1rem}
+.about-text p:first-child::first-letter{
+  font-family:var(--serif);font-size:3.4rem;float:left;
+  line-height:.8;margin-right:.6rem;margin-top:.25rem;
+  color:var(--accent);font-weight:700;
+}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.5rem}
+.stat{padding:1.2rem;border-radius:var(--radius);background:var(--bg-card);border:1px solid var(--border);text-align:center}
+.stat-num{font-family:var(--serif);font-size:1.6rem;font-weight:700;color:var(--accent)}
+.stat-lbl{font-size:.75rem;color:var(--text-dim);margin-top:.15rem}
+
+.skills-wrap{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.skill{
+  padding:.4rem .9rem;border-radius:100px;font-size:.78rem;font-weight:500;
+  background:var(--accent-light);color:var(--accent);border:1px solid rgba(196,93,62,.12);
+}
+
+/* ─── EXPERIENCE ─── */
+.exp-timeline{position:relative;padding-left:2rem;border-left:2px solid var(--border)}
+.exp-item{position:relative;padding:0 0 2.5rem 1.5rem}
+.exp-item:last-child{padding-bottom:0}
+.exp-item::before{
+  content:'';position:absolute;left:-2rem;top:.35rem;
+  width:12px;height:12px;border-radius:50%;
+  background:var(--bg);border:2.5px solid var(--accent);
+  margin-left:-5px;
+}
+.exp-role{font-size:1.1rem;font-weight:600;color:var(--text-bright)}
+.exp-company{color:var(--accent);font-weight:500;font-size:.95rem}
+.exp-date{font-size:.8rem;color:var(--text-dim);margin:.25rem 0 .6rem}
+.exp-desc{font-size:.92rem;color:var(--text);line-height:1.75}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem}
+.exp-tags span{font-size:.72rem;padding:.25rem .6rem;border-radius:4px;background:var(--bg-alt);color:var(--text-dim)}
+
+/* ─── PROJECTS ─── */
+.projects-bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.p-card{
+  padding:1.8rem;border-radius:var(--radius);background:var(--bg-card);
+  border:1px solid var(--border);transition:all .3s;
+  display:flex;flex-direction:column;
+}
+.p-card:hover{border-color:var(--border-hover);box-shadow:var(--shadow-hover);transform:translateY(-3px)}
+.p-card.featured{grid-column:span 2}
+.p-top{display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem}
+.p-icon{
+  width:38px;height:38px;border-radius:10px;
+  background:var(--accent-light);display:flex;align-items:center;justify-content:center;
+}
+.p-icon svg{width:18px;height:18px;color:var(--accent)}
+.p-links{display:flex;gap:.5rem}
+.p-links a{
+  width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--bg-alt);color:var(--text-dim);text-decoration:none;font-size:.85rem;
+  transition:all .2s;
+}
+.p-links a:hover{background:var(--accent);color:#fff}
+.p-name{font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--text-bright);margin-bottom:.5rem}
+.p-desc{font-size:.85rem;color:var(--text-dim);line-height:1.7;flex:1;margin-bottom:1rem}
+.p-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.p-tags span{font-size:.7rem;padding:.2rem .55rem;border-radius:4px;background:var(--bg-alt);color:var(--text-dim)}
+
+/* ─── CERTIFICATIONS ─── */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+.cert-group{
+  padding:1.5rem;border-radius:var(--radius);background:var(--bg-card);
+  border:1px solid var(--border);cursor:pointer;transition:all .2s;
+}
+.cert-group:hover{border-color:var(--border-hover)}
+.cert-head{display:flex;justify-content:space-between;align-items:center}
+.cert-issuer{font-weight:600;color:var(--text-bright);font-size:.95rem}
+.cert-count{
+  font-size:.75rem;font-weight:600;padding:.2rem .55rem;
+  border-radius:100px;background:var(--accent-light);color:var(--accent);
+}
+.cert-arrow{color:var(--text-dim);transition:transform .3s;margin-left:.5rem;display:inline-flex;align-items:center}
+.cert-group.open .cert-arrow{transform:rotate(180deg)}
+.cert-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.cert-group.open .cert-body{max-height:1500px}
+.cert-entry{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.6rem 0;border-bottom:1px solid var(--bg-alt);font-size:.85rem;
+}
+.cert-entry:last-child{border-bottom:none}
+.cert-entry .date{font-size:.72rem;color:var(--text-dim);white-space:nowrap;margin-left:1rem}
+
+/* ─── CONTACT ─── */
+.contact-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
+.c-card{
+  padding:1.5rem;border-radius:var(--radius);background:var(--bg-card);
+  border:1px solid var(--border);text-decoration:none;text-align:center;
+  transition:all .25s;display:block;
+}
+.c-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+.c-icon{margin-bottom:.6rem;display:flex;justify-content:center}
+.c-icon svg{width:22px;height:22px;color:var(--accent)}
+.c-label{font-size:.75rem;color:var(--text-dim)}
+.c-value{font-weight:600;color:var(--text-bright);font-size:.9rem;margin-top:.15rem}
+
+/* ─── FOOTER ─── */
+footer{text-align:center;padding:3rem;font-size:.8rem;color:var(--text-dim);border-top:1px solid var(--border)}
+
+/* ─── ANIMATIONS ─── */
+.reveal{opacity:0;transform:translateY(24px);transition:all .65s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-grid{grid-template-columns:1fr;gap:2.5rem}
+  .hero-photo-wrap{max-width:320px;margin:0 auto}
+  .about-cols{grid-template-columns:1fr}
+  .projects-bento{grid-template-columns:1fr 1fr}
+  .p-card.featured{grid-column:span 1}
+}
+@media(max-width:640px){
+  section{padding:4rem 1.25rem}
+  .hero-grid{text-align:center}
+  .hero-bio{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-photo-wrap{max-width:260px}
+  .projects-bento{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:1fr}
+  .nav-links{
+    display:none;position:fixed;top:72px;left:0;right:0;
+    background:rgba(250,248,244,.97);backdrop-filter:blur(16px);
+    flex-direction:column;padding:1.5rem;gap:1.2rem;
+    border-bottom:1px solid var(--border);
+  }
+  .nav-links.open{display:flex}
+  .nav-toggle{display:block}
+}
+</style>
+</head>
+<body>
+
+<!-- The site is built dynamically from the CONFIG below. Scroll to the <script> to edit. -->
+<div id="app"></div>
+
+<script>
+// ╔══════════════════════════════════════════════════════════════════════╗
+// ║                                                                      ║
+// ║   EDIT THIS CONFIG TO MAKE THE PORTFOLIO YOURS                       ║
+// ║   Just change the values below. The site builds itself.              ║
+// ║                                                                      ║
+// ╚══════════════════════════════════════════════════════════════════════╝
+
+const CONFIG = {
+
+  // ── YOUR INFO ──
+  name: "Taha Nagdawala",
+  role: "AI & Data Analyst",
+  tagline: "Turning data into actionable insights.",
+  bio: "I'm a junior AI and Data Analyst based in Dubai, with hands-on experience building applied machine learning, NLP, and analytics solutions. I enjoy working on real-world problems that sit at the intersection of data, AI, and business.",
+  photo: "",
+  email: "nagda5253@gmail.com",
+  location: "Dubai, UAE",
+
+  // ── LINKS ──
+  github: "https://github.com/techtrail42",
+  linkedin: "https://www.linkedin.com/in/taha-nagdawala/",
+  twitter: "",
+  website: "",
+
+  // ── ABOUT ──
+  about: `I'm a junior AI and Data Analyst based in Dubai, with hands-on experience building applied machine learning, NLP, and analytics solutions using Python and SQL. During my internship at Zentori Technologies, I worked on an AI-enabled compliance reporting system, where I supported data modeling, analytical pipelines, and automated insight generation in a regulated environment. I've also built practical projects including an AI-based fake news classification system, interactive dashboards, and automation workflows, which strengthened my ability to turn raw data into clear, actionable insights. I enjoy working on real-world problems that sit at the intersection of data, AI, and business, and I'm comfortable explaining technical outputs to non-technical stakeholders. I'm currently exploring junior AI or data-focused roles in the UAE and am available to start immediately.`,
+
+  // ── STATS ──
+  stats: [
+    { number: "10+",  label: "Projects Built" },
+    { number: "9+",   label: "Certifications" },
+    { number: "4 mos", label: "Industry Experience" },
+  ],
+
+  // ── SKILLS ──
+  skills: [
+    "Python", "SQL", "Machine Learning", "NLP",
+    "Data Analytics", "Streamlit", "Tableau",
+    "Deep Learning", "LSTM", "Prompt Engineering",
+    "n8n Automation", "Data Visualization",
+    "Statistical Analysis", "Digital Forensics",
+    "Cybersecurity", "Critical Thinking",
+  ],
+
+  // ── EXPERIENCE ──
+  experience: [
+    {
+      role: "AI Innovation Intern",
+      company: "Zentori Technologies",
+      date: "Sep 2025 -- Dec 2025",
+      description: "Worked on an AI-enabled compliance reporting system, supporting data modeling, analytical pipelines, and automated insight generation in a regulated environment. Contributed to building intelligent workflows that streamlined reporting processes.",
+      tags: ["AI", "Data Modeling", "Compliance", "Automation"],
+    },
+    {
+      role: "Bachelor of Information Technology",
+      company: "Murdoch University Dubai",
+      date: "2022 -- 2025",
+      description: "Completed a Bachelor of Information Technology with a double focus on Artificial Intelligence and Cybersecurity. Built multiple applied projects across machine learning, data analytics, NLP, and digital forensics.",
+      tags: ["AI", "Cybersecurity", "Machine Learning", "Data Science"],
+    },
+  ],
+
+  // ── PROJECTS ──
+  projects: [
+    {
+      name: "NewsGuard AI",
+      description: "AI-powered fake news detection and correction system using a CuDNNLSTM deep learning model. Features probability calibration, LIME explainability, NewsAPI integration for fact-checking, and a Streamlit dashboard for interactive analysis.",
+      tags: ["Python", "LSTM", "NLP", "LIME", "Streamlit"],
+      github: "https://github.com/techtrail42/News_Classification",
+      live: "",
+      featured: true,
+    },
+    {
+      name: "Payroll Analysis Voice & Text Assistant",
+      description: "Intelligent HR payroll assistant with voice and text interaction. Built with n8n workflow automation and VAPI for real-time speech processing. Generates automated email summaries with key findings after each session.",
+      tags: ["n8n", "VAPI", "OpenAI", "Automation"],
+      github: "",
+      live: "",
+      featured: true,
+    },
+    {
+      name: "Quality of Life Dashboard",
+      description: "Interactive dashboard covering quality of life metrics across 114 countries with 15+ indicators. Built with Python and Streamlit using crowd-sourced Numbeo data. Developed by a team of 5.",
+      tags: ["Python", "Streamlit", "Data Analysis"],
+      github: "https://github.com/techtrail42/Quality-of-Life-Dashboard",
+      live: "https://quality-of-life-dashboard.streamlit.app/",
+      featured: false,
+    },
+    {
+      name: "Topic Modeling on Tweet Dataset",
+      description: "Unsupervised ML project analyzing 22,000+ tweets using BERT-based topic modeling, LDA, DBSCAN, and K-means clustering. Achieved highest coherence score with K-means. Includes word clouds and cluster visualizations.",
+      tags: ["Python", "NLP", "BERT", "K-means", "LDA"],
+      github: "",
+      live: "",
+      featured: false,
+    },
+    {
+      name: "Digital Forensic Investigation",
+      description: "Full-scale forensic investigation on drive and RAM images from a narcos case simulation. Used Autopsy, OSForensics, and FTK Imager with hash verification and chain of custody documentation.",
+      tags: ["Autopsy", "FTK Imager", "Forensics"],
+      github: "",
+      live: "",
+      featured: false,
+    },
+    {
+      name: "Vulnerability Demonstration (PaperCut NG)",
+      description: "Demonstrated and documented a critical authentication bypass vulnerability in PaperCut NG 22.0.5 (CVSS 9.8). Analyzed exploitation, developed mitigation strategies, and produced comprehensive security documentation.",
+      tags: ["CVE Analysis", "Vuln Assessment", "Security"],
+      github: "",
+      live: "",
+      featured: false,
+    },
+    {
+      name: "BCG Data Science Job Simulation",
+      description: "Customer churn analysis simulation for XYZ Analytics on Forage. Conducted data analysis using Python (Pandas, NumPy), created visualizations for trend interpretation, and delivered an executive summary with actionable insights.",
+      tags: ["Python", "Pandas", "Data Analytics"],
+      github: "",
+      live: "",
+      featured: false,
+    },
+    {
+      name: "Sports News Website on Azure",
+      description: "Developed and hosted a sports news website on Microsoft Azure using a Linux VM. Configured Apache as the web server, automated deployment with Bash scripts, and managed the project through the Linux command line.",
+      tags: ["Azure", "Apache", "Linux", "Bash"],
+      github: "",
+      live: "",
+      featured: false,
+    },
+    {
+      name: "Clock in Assembly Language",
+      description: "Designed and implemented a 24-hour digital clock in Assembly Language with real-time updates using delay loops and system interrupts. Handled edge cases like the 23:59:59 to 00:00:00 transition.",
+      tags: ["Assembly", "x86", "Low-Level"],
+      github: "",
+      live: "",
+      featured: false,
+    },
+  ],
+
+  // ── CERTIFICATIONS ──
+  certifications: [
+    {
+      issuer: "IBM",
+      certs: [
+        { name: "Prompt Engineering", date: "Nov 2025" },
+      ],
+    },
+    {
+      issuer: "Cisco",
+      certs: [
+        { name: "Data Analytics Essentials", date: "Jan 2025" },
+        { name: "Networking Devices and Initial Configuration", date: "Oct 2024" },
+        { name: "Networking Basics", date: "Apr 2024" },
+        { name: "Introduction to Cybersecurity", date: "Sep 2023" },
+      ],
+    },
+    {
+      issuer: "Security Blue Team",
+      certs: [
+        { name: "Blue Team Junior Analyst", date: "Dec 2024" },
+      ],
+    },
+    {
+      issuer: "Forage",
+      certs: [
+        { name: "BCG Data Science Job Simulation", date: "Oct 2024" },
+      ],
+    },
+    {
+      issuer: "University of California, Davis",
+      certs: [
+        { name: "Critical Thinking Skills for the Professional", date: "Oct 2024" },
+      ],
+    },
+    {
+      issuer: "Alison",
+      certs: [
+        { name: "Soft Skills for Professionals", date: "Sep 2025" },
+      ],
+    },
+  ],
+};
+
+// ╔══════════════════════════════════════════════════════════════════════╗
+// ║   STOP EDITING HERE. Everything below builds the site from CONFIG. ║
+// ╚══════════════════════════════════════════════════════════════════════╝
+
+function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+
+const SVG = {
+  github: `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>`,
+  external: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  linkedin: `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
+  email: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>`,
+  location: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  twitter: `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+  folder: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>`,
+  githubContact: `<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>`,
+};
+
+function render(){
+  const C = CONFIG;
+  document.getElementById('page-title').textContent = `${C.name} | ${C.role}`;
+  document.getElementById('page-desc').content = `${C.role}. ${C.bio.substring(0,150)}`;
+
+  // Social links for contact
+  const socials = [];
+  if(C.github)   socials.push({icon:SVG.githubContact, label:'GitHub',  value:C.github.replace(/https?:\/\/(www\.)?github\.com\/?/,''),  url:C.github});
+  if(C.linkedin) socials.push({icon:SVG.linkedin,      label:'LinkedIn',value:C.linkedin.replace(/https?:\/\/(www\.)?linkedin\.com\/in\/?/,''), url:C.linkedin});
+  if(C.twitter)  socials.push({icon:SVG.twitter,        label:'Twitter', value:C.twitter.replace(/https?:\/\/(www\.)?(twitter|x)\.com\/?/,''),  url:C.twitter});
+  if(C.email)    socials.push({icon:SVG.email,           label:'Email',  value:C.email,url:`mailto:${C.email}`});
+  if(C.location) socials.push({icon:SVG.location,        label:'Location',value:C.location,url:'#'});
+
+  document.getElementById('app').innerHTML = `
+  <!-- Nav -->
+  <nav id="navbar">
+    <a href="#" class="nav-name">${esc(C.name.split(' ')[0].toLowerCase())}.</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about" onclick="closeNav()">About</a></li>
+      <li><a href="#experience" onclick="closeNav()">Experience</a></li>
+      <li><a href="#projects" onclick="closeNav()">Projects</a></li>
+      ${C.certifications.length ? '<li><a href="#certs" onclick="closeNav()">Certs</a></li>':''}
+      <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" onclick="document.getElementById('navLinks').classList.toggle('open')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-intro">${esc(C.role)}</div>
+          <h1 class="hero-name">${esc(C.name.split(' ')[0])}<br><em>${esc(C.name.split(' ').slice(1).join(' '))}</em></h1>
+          <p class="hero-bio">${esc(C.bio)}</p>
+          <div class="hero-actions">
+            ${C.github ? `<a href="${esc(C.github)}" target="_blank" rel="noopener" class="btn btn-fill">${SVG.github} GitHub</a>` : ''}
+            ${C.linkedin ? `<a href="${esc(C.linkedin)}" target="_blank" rel="noopener" class="btn btn-outline"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>` : ''}
+            <a href="#projects" class="btn btn-outline">View Work</a>
+          </div>
+        </div>
+        ${C.photo ? `
+        <div class="hero-photo-wrap">
+          <img src="${esc(C.photo)}" alt="${esc(C.name)}" loading="eager">
+        </div>` : `
+        <div class="hero-photo-wrap">
+          <div class="hero-monogram">
+            <div class="hero-monogram-initials">${C.name.split(' ').map(w=>w[0]).join('')}</div>
+            <div class="hero-monogram-line"></div>
+            <div class="hero-monogram-name">${esc(C.role)}</div>
+          </div>
+        </div>`}
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" style="background:var(--bg-alt)">
+    <div class="container">
+      <div class="sec-eyebrow">About</div>
+      <h2 class="sec-title">A bit about me</h2>
+      <div class="about-cols">
+        <div>
+          <div class="about-text"><p>${C.about}</p></div>
+          <div class="skills-wrap">
+            ${C.skills.map(s=>`<span class="skill">${esc(s)}</span>`).join('')}
+          </div>
+        </div>
+        <div>
+          <div class="stats-row">
+            ${C.stats.map(s=>`
+              <div class="stat reveal">
+                <div class="stat-num">${esc(s.number)}</div>
+                <div class="stat-lbl">${esc(s.label)}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="container">
+      <div class="sec-eyebrow">Experience</div>
+      <h2 class="sec-title">Where I've been</h2>
+      <div style="max-width:680px;margin-top:2rem">
+        <div class="exp-timeline">
+          ${C.experience.map(e=>`
+            <div class="exp-item reveal">
+              <div class="exp-role">${esc(e.role)}</div>
+              <div class="exp-company">${esc(e.company)}</div>
+              <div class="exp-date">${esc(e.date)}</div>
+              <div class="exp-desc">${esc(e.description)}</div>
+              <div class="exp-tags">${e.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" style="background:var(--bg-alt)">
+    <div class="container">
+      <div class="sec-eyebrow">Projects</div>
+      <h2 class="sec-title">Things I've built</h2>
+      <p class="sec-desc">${esc(C.tagline)}</p>
+      <div class="projects-bento">
+        ${C.projects.map(p=>`
+          <div class="p-card reveal ${p.featured?'featured':''}">
+            <div class="p-top">
+              <div class="p-icon">${SVG.folder}</div>
+              <div class="p-links">
+                ${p.github?`<a href="${esc(p.github)}" target="_blank" title="Code">${SVG.github}</a>`:''}
+                ${p.live?`<a href="${esc(p.live)}" target="_blank" title="Live">${SVG.external}</a>`:''}
+              </div>
+            </div>
+            <div class="p-name">${esc(p.name)}</div>
+            <div class="p-desc">${esc(p.description)}</div>
+            <div class="p-tags">${p.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </section>
+
+  <!-- Certifications -->
+  ${C.certifications.length ? `
+  <section id="certs">
+    <div class="container">
+      <div class="sec-eyebrow">Certifications</div>
+      <h2 class="sec-title">Credentials</h2>
+      <div class="cert-grid">
+        ${C.certifications.map(g=>`
+          <div class="cert-group reveal" onclick="this.classList.toggle('open')">
+            <div class="cert-head">
+              <span class="cert-issuer">${esc(g.issuer)}</span>
+              <div><span class="cert-count">${g.certs.length}</span><span class="cert-arrow"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+            </div>
+            <div class="cert-body">
+              ${g.certs.map(c=>`
+                <div class="cert-entry">
+                  <span>${esc(c.name)}</span>
+                  <span class="date">${esc(c.date)}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </section>` : ''}
+
+  <!-- Contact -->
+  <section id="contact" style="background:var(--bg-alt)">
+    <div class="container">
+      <div class="sec-eyebrow">Contact</div>
+      <h2 class="sec-title">Get in touch</h2>
+      <p class="sec-desc">Open to opportunities and collaborations. Feel free to reach out.</p>
+      <div class="contact-cards">
+        ${socials.map(s=>`
+          <a href="${esc(s.url)}" target="${s.url.startsWith('mailto')||s.url==='#'?'_self':'_blank'}" rel="noopener" class="c-card" ${s.url==='#'?'style="cursor:default"':''}>
+            <div class="c-icon">${s.icon}</div>
+            <div class="c-label">${esc(s.label)}</div>
+            <div class="c-value">${esc(s.value)}</div>
+          </a>
+        `).join('')}
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">Built by ${esc(C.name)} &middot; ${new Date().getFullYear()}</div>
+  </footer>
+  `;
+
+  // Scroll effects
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>50));
+
+  // Reveal on scroll
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  // Stagger
+  document.querySelectorAll('.p-card').forEach((c,i)=>{c.style.transitionDelay=`${i*.06}s`});
+}
+
+function closeNav(){document.getElementById('navLinks')?.classList.remove('open')}
+render();
+</script>
+</body>
+</html>
